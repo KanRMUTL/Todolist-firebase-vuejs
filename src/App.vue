@@ -1,28 +1,42 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Toto list</h1>
+    <input type="text" v-model="todo"/>
+    <br>
+    <small>{{ this.errors }}</small>
+    <br>
+    <button @click="addTodo">Add todo</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { db } from '@/main'
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
+  data: () => {
+    return {
+      todo: '',
+      errors: ''
+    }
+  },
+  methods: {
+    addTodo() {
+      this.errors = '';
+      if(this.todo !== ''){
+        db.collection('items').add({
+          title: this.todo,
+          created: Date.now()
+        }).then((response) => {
+          if(response) {
+            this.todo = ''
+          }
+        }).catch((error) =>{
+          this.errors = error
+        })
+      } else {
+        this.errors = "เพิ่ม todo list ก่อนจ้า"
+      }
+    }
+  },
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
