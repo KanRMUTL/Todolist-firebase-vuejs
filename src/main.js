@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import firebase from 'firebase'
-import store from './store.js'
+import store from './store'
+import './vueMaterial'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQGkApFITU4gj6aJaVLSIHKLwslE5EqqM",
@@ -17,6 +18,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 export const db = firebase.firestore()
+export const database = firebase.database()
 
 Vue.config.productionTip = false
 
