@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
      state: {
-          items: null
+          items: null,
+          database: db.collection('items')
      }, 
      
      getters: {
@@ -26,12 +27,30 @@ export default new Vuex.Store({
                     })
                     state.items = items
                })
+          },
+          deleteItem: (state, payload) => {
+               state.database.doc(payload).delete().then(res => {
+               if(res){ console.log(res) }
+               }).catch(error => this.errors = error)
+          },
+          updateItem: (state, payload) => {
+               state.database.doc(payload.id).update({
+                 "complete": !payload.complete
+               }).then(res => {
+                 if(res){ console.log(res) }
+               }).catch(error => this.errors = error)
           }
      },
 
      actions: {
-          setItems: context => {
-               context.commit('setItems')
+          setItems: ({commit}) => {
+               commit('setItems')
+          },
+          deleteItem: ({commit}, payload) => {
+               commit('deleteItem', payload)
+          },
+          updateItem: ({commit}, payload) => {
+               commit('updateItem', payload)
           }
      }
 
