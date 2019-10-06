@@ -2,17 +2,27 @@
   <div>
     <h1>Toto list</h1>
     <input type="text" v-model="todo"/>
+    <button @click="addTodo">Add todo</button>
     <br>
     <small>{{ this.errors }}</small>
+    <div v-if="this.getItems && this.getItems.length > 0">
+      <div v-for="item in this.getItems" :key="item.id">
+        {{ item.title }} <br>  
+      </div>
+    </div>
     <br>
-    <button @click="addTodo">Add todo</button>
+   
   </div>
 </template>
 
 <script>
 import { db } from '@/main'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'app',
+  beforeCreate () {
+    this.$store.dispatch('setItems')
+  },
   data: () => {
     return {
       todo: '',
@@ -20,6 +30,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setItems']),
     addTodo() {
       this.errors = '';
       if(this.todo !== ''){
@@ -37,6 +48,9 @@ export default {
         this.errors = "เพิ่ม todo list ก่อนจ้า"
       }
     }
+  },
+  computed: {
+    ...mapGetters(['getItems'])
   },
 }
 </script>
