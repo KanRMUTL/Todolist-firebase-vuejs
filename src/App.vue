@@ -2,8 +2,7 @@
   <div class="md-layout md-gutter">
      <div class="md-layout-item md-xlarge-size-25 md-large-size-25 md-medium-size-25 md-small-size-5"></div>
     <md-card class="md-layout-item md-xlarge-size-50 md-large-size-50 md-medium-size-50 md-small-size-90">
-      <!-- <md-card> -->
-      <md-button>Toto list</md-button>
+     <md-button>Toto list</md-button>
       <div class="full-control">
         <md-field>
           <label>Add Your Todo list</label>
@@ -29,7 +28,6 @@
         </md-list-item>
       </md-list>
      
-    <!-- </md-card> -->
     </md-card>
   </div>
 </template>
@@ -75,20 +73,6 @@ export default {
         this.errors = "พิมพ์ todo list ก่อนจ้า";
       }
     },
-    complete(item) {
-      let currentTodo = db.collection('items')
-      currentTodo.doc(item.id).update({
-        "complete": !item.complete
-      }).then(res => {
-        if(res){ console.log(res) }
-      }).catch(error => this.errors = error)
-    },
-    // deleteItem(id){
-    //   let currentTodo = db.collection('items')
-    //   currentTodo.doc(id).delete().then(res => {
-    //     if(res){ console.log(res) }
-    //   }).catch(error => this.errors = error)
-    // }
 
   },
   computed: {
